@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>casutils</name>
   <description>
-    An authorised accessor for a CAS protected resources.
+    An authorised accessor for CAS protected resources.
   </description>
   
   <url>https://github.com/timp21337/casutils</url>
@@ -116,7 +116,7 @@ https://github.com/timp21337/authorised-cas-proxy/issues
     <plugin>
      <groupId>org.codehaus.mojo</groupId>
      <artifactId>cobertura-maven-plugin</artifactId>
-     <!--version>2.0</version-->
+     <version>2.4</version>
      <executions>
        <execution>
          <id>c</id>
@@ -171,6 +171,17 @@ https://github.com/timp21337/authorised-cas-proxy/issues
               <artifactId>maven-javadoc-plugin</artifactId>
               <version>2.7</version>
             </plugin>
+            <plugin>
+	            <groupId>org.codehaus.mojo</groupId>
+	            <artifactId>cobertura-maven-plugin</artifactId>
+	            <version>2.4</version>
+	            <configuration>
+	              <formats>
+	                <format>xml</format>
+	                <format>html</format>
+	              </formats>
+	            </configuration>
+	          </plugin>
           </reportPlugins>
       </configuration>
       <executions>
