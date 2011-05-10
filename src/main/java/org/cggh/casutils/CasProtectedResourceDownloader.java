@@ -119,7 +119,7 @@ public class CasProtectedResourceDownloader {
    * wget -O - -d ${TARGET}?ticket=$ST |grep "atom:feed"
    */
 
-  public static String getServiceTicket(final String casServerUrl, final String username, final String password, final String service) {
+  private static String getServiceTicket(final String casServerUrl, final String username, final String password, final String service) {
     return getServiceTicket(casServerUrl, getTicketGrantingTicket(casServerUrl, username, password), service);
   }
 
