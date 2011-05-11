@@ -75,6 +75,11 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
       CasProtectedResourceDownloader.init(HOST_N_PORT,"adam@example.org",PASSWORD, "/tmp/"); 
     }
   }
+  
+  public void testGetUrlWithParameters() throws Exception { 
+    assertEquals("file:///tmp/ZAZBM_foo=bar", CasProtectedResourceDownloader.download(TEST_STUDY_URL + "?foo=bar"));
+    
+  }
 
   /**
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#download(java.lang.String)}.
@@ -88,6 +93,14 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
    */
   public void testDownloadUrlToFile() throws Exception {
     assertEquals(200, CasProtectedResourceDownloader.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/ZAZBM", new File("t.tmp")));
+  }
+  public void testDownloadBadUrlToFile() throws Exception {
+    try { 
+      CasProtectedResourceDownloader.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/not_there", new File("t.tmp"));
+      fail("Should have bombed");
+    } catch (RuntimeException e) { 
+      e = null;
+    }
   }
 
 }
