@@ -56,6 +56,7 @@ public class CasProtectedResourceDownloader {
    */
   public static String download(String uri) throws IOException {
     String name = uri.substring(uri.lastIndexOf('/') + 1);
+    name = name.replace('?', '_');
     downloadUrlToFile(uri, new File(tempFileDirectory, name));
 
     String returnUrl = tempUrlLocation + name;
