@@ -38,7 +38,7 @@ public class CasProtectedResourceDownloader {
                                         String usernameIn, String passwordIn, String tempFileDirectoryIn) {
     this.ticketGrantingProtocol = ticketGrantingProtocolIn;
     this.ticketGrantingHostAndPort = ticketGrantingHostAndPortIn;
-    this.ticketGrantingServiceUrl = ticketGrantingHostAndPort + "/sso/v1/tickets";
+    this.ticketGrantingServiceUrl = ticketGrantingProtocol+ ticketGrantingHostAndPort + "/sso/v1/tickets";
     this.username = usernameIn;
     this.password = passwordIn;
     this.tempFileDirectory = tempFileDirectoryIn;

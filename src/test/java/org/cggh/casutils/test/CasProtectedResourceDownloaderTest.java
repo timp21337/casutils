@@ -22,7 +22,7 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
   static final String PROTOCOL = "http://";
   static final String HOST = "cloud1.cggh.org";
   static final String PORT = "80";
-  static final String PROTOCOL_HOST_N_PORT = PROTOCOL + HOST + ":" + PORT;
+  static final String HOST_N_PORT = HOST + ":" + PORT;
   static final String CONTEXTPATH = "/repository";
   static final String SERVICEPATH = "/service/";
   
@@ -52,10 +52,10 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
   }
 
   public void testDownloadZip() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     assertEquals("file:///tmp/d5064bae-870b-4ebc-8013-b282af180983.media",
         it.download(TEST_ZIP_FILE_URL));
-    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, "bad", "/tmp/");
+    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, "bad", "/tmp/");
     try { 
       bad.download(TEST_ZIP_FILE_URL);
     } catch (RuntimeException e) { 
@@ -65,10 +65,10 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
   }
 
   public void testGetStudy() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL, HOST_N_PORT,USER, PASSWORD, "/tmp/");
     assertEquals("file:///tmp/ZAZBM", it.download(TEST_STUDY_URL));
 
-    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,"adam@example.org", "bair", "/tmp/"); 
+    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,"adam@example.org", "bair", "/tmp/"); 
     try { 
       bad.download(TEST_STUDY_URL);
       fail("Should have bombed");
@@ -79,7 +79,7 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
   
   
   public void testGetUrlWithParameters() throws Exception { 
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     assertEquals("file:///tmp/ZAZBM_foo=bar", it.download(TEST_STUDY_URL + "?foo=bar"));
   }
 
@@ -87,7 +87,7 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#download(java.lang.String)}.
    */
   public void testDownload() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     assertEquals("file:///tmp/ZAZBM", it.download("http://cloud1.cggh.org/repository/service/content/studies/ZAZBM"));
   }
 
@@ -95,11 +95,11 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#downloadUrlToFile(java.lang.String, java.io.File)}.
    */
   public void testDownloadUrlToFile() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     assertEquals(200, it.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/ZAZBM", new File("t.tmp")));
   }
   public void testDownloadBadUrlToFile() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("https://",PROTOCOL_HOST_N_PORT,USER, PASSWORD, "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     try { 
       it.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/not_there", new File("t.tmp"));
       fail("Should have bombed");
