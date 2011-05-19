@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 
@@ -26,23 +27,23 @@ public class CasProtectedResourceDownloader {
 
   final static String charSet = "UTF-8";
 
-  public static String username = "adam@example.org";
-  public static String password = "bar";
-  public static String ticketGrantingHostAndPort = "cloud1.cggh.org:80";
-  public static String ticketGrantingServiceUrl = "http://" + ticketGrantingHostAndPort + "/sso/v1/tickets";
-  public static String tempFileDirectory = "/tmp/";
-  public static String tempUrlLocation = "file://" + tempFileDirectory;
+  private String username = "adam@example.org";
+  private String password = "bar";
+  private String ticketGrantingProtocol = "http://";
+  private String ticketGrantingHostAndPort = "cloud1.cggh.org:80";
+  private String ticketGrantingServiceUrl = ticketGrantingProtocol + ticketGrantingHostAndPort + "/sso/v1/tickets";
+  private String tempFileDirectory = "/tmp/";
+  private String tempUrlLocation = "file://" + tempFileDirectory;
 
-  private CasProtectedResourceDownloader() {
-  }
-
-  public static void init(String ticketGrantingHostAndPortIn, String usernameIn, String passwordIn, String tempFileDirectoryIn) {
-    ticketGrantingHostAndPort = ticketGrantingHostAndPortIn;
-    ticketGrantingServiceUrl = "http://" + ticketGrantingHostAndPort + "/sso/v1/tickets";
-    username = usernameIn;
-    password = passwordIn;
-    tempFileDirectory = tempFileDirectoryIn;
-    tempUrlLocation = "file://" + tempFileDirectory;
+  public CasProtectedResourceDownloader(String ticketGrantingProtocolIn, String ticketGrantingHostAndPortIn, 
+                                        String usernameIn, String passwordIn, String tempFileDirectoryIn) {
+    this.ticketGrantingProtocol = ticketGrantingProtocolIn;
+    this.ticketGrantingHostAndPort = ticketGrantingHostAndPortIn;
+    this.ticketGrantingServiceUrl = ticketGrantingHostAndPort + "/sso/v1/tickets";
+    this.username = usernameIn;
+    this.password = passwordIn;
+    this.tempFileDirectory = tempFileDirectoryIn;
+    this.tempUrlLocation = "file://" + tempFileDirectory;
 
     System.err.println("ticketGrantingServiceUrl:" + ticketGrantingServiceUrl);
     System.err.println("usernameIn:" + usernameIn);
@@ -50,11 +51,12 @@ public class CasProtectedResourceDownloader {
     System.err.println("tempFileDirectoryIn:" + tempFileDirectoryIn);
   }
 
+
   /**
    * @param uri
    *          protected resource
    */
-  public static String download(String uri) throws IOException {
+  public String download(String uri) throws IOException {
     String name = uri.substring(uri.lastIndexOf('/') + 1);
     name = name.replace('?', '_');
     downloadUrlToFile(uri, new File(tempFileDirectory, name));
@@ -63,7 +65,7 @@ public class CasProtectedResourceDownloader {
     return returnUrl;
   }
 
-  private static String ticketedUri(String uri) {
+  private String ticketedUri(String uri) {
     String ticketedUri = uri;
     String ticket = getServiceTicket(ticketGrantingServiceUrl, username, password, uri);
 
@@ -79,7 +81,7 @@ public class CasProtectedResourceDownloader {
   /**
    * Download the url content and save into the file.
    */
-  public static int downloadUrlToFile(String uri, File file) throws IOException {
+  public int downloadUrlToFile(String uri, File file) throws IOException {
     System.err.println("Downloading uri " + uri + " to " + file);
     String ticketedUri = ticketedUri(uri);
     System.err.println("Ticketted uri: " + ticketedUri);
@@ -185,5 +187,5 @@ public class CasProtectedResourceDownloader {
     }
 
   }
-
+  
 }
