@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  */
 public class CasProtectedResourceDownloaderTest extends TestCase {
 
-  static final String PROTOCOL = "http://";
+  static final String PROTOCOL = "https://";
   static final String HOST = "cloud1.cggh.org";
   static final String PORT = "80";
   static final String HOST_N_PORT = HOST + ":" + PORT;
