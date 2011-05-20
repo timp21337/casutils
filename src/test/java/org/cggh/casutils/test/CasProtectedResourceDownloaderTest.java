@@ -21,12 +21,13 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
 
   static final String PROTOCOL = "http://";
   static final String HOST = "cloud1.cggh.org";
+  //static final String HOST = "www.wwarn.org";
   static final String PORT = "80";
   static final String HOST_N_PORT = HOST + ":" + PORT;
   static final String CONTEXTPATH = "/repository";
   static final String SERVICEPATH = "/service/";
   
-  // FIXME Service url elides port ???
+  // FIXME Service url elides port 
   
   static final String SERVICE_URL = PROTOCOL + HOST  + CONTEXTPATH + SERVICEPATH;
   static final String CONTENT_URL = SERVICE_URL + "content/";
@@ -96,12 +97,12 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
    */
   public void testDownloadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
-    assertEquals(200, it.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/ZAZBM", new File("t.tmp")));
+    assertEquals(200, it.downloadUrlToFile(TEST_STUDY_URL, new File("t.tmp")));
   }
   public void testDownloadBadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(PROTOCOL,HOST_N_PORT,USER, PASSWORD, "/tmp/");
     try { 
-      it.downloadUrlToFile("http://cloud1.cggh.org/repository/service/content/studies/not_there", new File("t.tmp"));
+      it.downloadUrlToFile(PROTOCOL + HOST_N_PORT + "/repository/service/content/studies/not_there", new File("t.tmp"));
       fail("Should have bombed");
     } catch (RuntimeException e) { 
       e = null;
@@ -113,7 +114,7 @@ public class CasProtectedResourceDownloaderTest extends TestCase {
     GetMethod httpget = new GetMethod("https://www.verisign.com/"); 
     try { 
       httpclient.executeMethod(httpget);
-      System.out.println(httpget.getStatusLine());
+      assertEquals("HTTP/1.1 200 OK", httpget.getStatusLine().toString());
     } finally {
       httpget.releaseConnection();
     }
