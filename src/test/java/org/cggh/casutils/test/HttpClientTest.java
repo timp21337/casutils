@@ -20,8 +20,8 @@ import junit.framework.TestCase;
  */
 public class HttpClientTest extends TestCase {
       
-  //public static final String TARGET_HTTPS_SERVER = "www.verisign.com"; 
-  public static final String TARGET_HTTPS_SERVER = "cloud1.cggh.org"; 
+  public static final String TARGET_HTTPS_SERVER = "www.verisign.com"; 
+  //public static final String TARGET_HTTPS_SERVER = "cloud1.cggh.org"; 
   public static final int    TARGET_HTTPS_PORT   = 443; 
       
   public HttpClientTest(String name) {
