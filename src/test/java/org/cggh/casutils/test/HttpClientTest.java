@@ -11,18 +11,25 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLSocketFactory;
+
+import junit.framework.TestCase;
 /**
  * 
  * @see http://hc.apache.org/httpclient-legacy/sslguide.html
  *
  */
-public class HttpClientTest {
+public class HttpClientTest extends TestCase {
       
-  public static final String TARGET_HTTPS_SERVER = "www.verisign.com"; 
+  //public static final String TARGET_HTTPS_SERVER = "www.verisign.com"; 
+  public static final String TARGET_HTTPS_SERVER = "cloud1.cggh.org"; 
   public static final int    TARGET_HTTPS_PORT   = 443; 
       
+  public HttpClientTest(String name) {
+    super(name);
+  }
+  
   public static void main(String[] args) throws Exception {
-    //testGet();
+    testGet();
     testPost();
   }
 
@@ -41,9 +48,12 @@ public class HttpClientTest {
        BufferedReader in = new BufferedReader(
           new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
        String line = null;
+       StringBuffer output = new StringBuffer();
        while ((line = in.readLine()) != null) {
-          System.out.println(line);
+         output.append(line);
+         output.append("\n");
        }
+       assertEquals("Have you setup trust certificates?", "HTTP/1.1 200 OK", output.substring(0,15));
      } finally {
        socket.close(); 
      }
@@ -64,9 +74,12 @@ public class HttpClientTest {
        BufferedReader in = new BufferedReader(
           new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
        String line = null;
+       StringBuffer output = new StringBuffer();
        while ((line = in.readLine()) != null) {
-          System.out.println(line);
+         output.append(line);
+         output.append("\n");
        }
+       assertEquals("Have you setup trust certificates?", "HTTP/1.1 200 OK", output.substring(0,15));
      } finally {
        socket.close(); 
      }
