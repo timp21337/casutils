@@ -106,6 +106,16 @@ https://github.com/timp21337/authorised-cas-proxy/issues
        <groupId>org.codehaus.mojo</groupId>
        <artifactId>cobertura-maven-plugin</artifactId>
        <version>2.4</version>
+       <configuration>
+         <instrumentation>
+          <ignores>
+           <ignore>**Servlet</ignore>
+          </ignores>
+          <excludes>
+            <exclude>**/*Servlet.class</exclude>
+          </excludes>
+         </instrumentation>
+       </configuration>
        <executions>
          <execution>
            <id>c</id>
