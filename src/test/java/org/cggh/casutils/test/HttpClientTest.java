@@ -12,6 +12,9 @@ import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+
 import junit.framework.TestCase;
 /**
  * A set of tests to prove that SSL is working correctly 
@@ -30,8 +33,19 @@ public class HttpClientTest extends TestCase {
     super(name);
   }
   
+  public void testGetVerisign() throws Exception { 
+    HttpClient httpclient = new HttpClient();
+    GetMethod httpget = new GetMethod("https://www.verisign.com/"); 
+    try { 
+      httpclient.executeMethod(httpget);
+      assertEquals("HTTP/1.1 200 OK", httpget.getStatusLine().toString());
+    } finally {
+      httpget.releaseConnection();
+    }
+  }
 
-  public  static void testGetVerisign() throws IOException, UnknownHostException, UnsupportedEncodingException {
+
+  public  static void testVerisign() throws IOException, UnknownHostException, UnsupportedEncodingException {
     String httpsServer = "www.verisign.com";
     String output = requestService(GET,httpsServer );
     
