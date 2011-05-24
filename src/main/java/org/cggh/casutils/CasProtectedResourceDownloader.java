@@ -107,7 +107,7 @@ public class CasProtectedResourceDownloader {
       } else {
         String response = get.getResponseBodyAsString();
         throw new RuntimeException("Invalid response code (" + status + ") from server.\n" + 
-            "Response (first 1k): " + response.substring(0, Math.min(1024, response.length())));
+            "Response (first 3k): " + response.substring(0, Math.min(3072, response.length())));
 
       }
     } finally {
