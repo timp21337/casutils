@@ -73,6 +73,7 @@ https://github.com/timp21337/authorised-cas-proxy/issues
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
         <version>2.4</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
@@ -191,6 +192,29 @@ https://github.com/timp21337/authorised-cas-proxy/issues
          <exclude>**/WwarnHttpsCasTest.java</exclude>
         </excludes>
        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+          <encoding>UTF-8</encoding>
+          <webResources>
+            <!--
+              counter-intuitive ordering - filtered overwrites normal, only
+              normal used in eclipse
+            -->
+            <resource>
+              <directory>src/main/filtered/</directory>
+              <filtering>true</filtering>
+            </resource>
+            <resource>
+              <directory>src/main/webapp/</directory>
+              <filtering>false</filtering>
+            </resource>
+          </webResources>
+          <warSourceDirectory>war</warSourceDirectory>
+        </configuration>
       </plugin>
     </plugins>
   </build>
