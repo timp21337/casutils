@@ -63,12 +63,12 @@ public class HttpClientTest extends TestCase {
     String output = requestService(GET,httpsServer );
     
     assertEquals("Have you setup trust certificates for " + httpsServer + "?\n" + 
-        output, "HTTP/1.1 302 Fo", output.substring(0,15));
+        output, "HTTP/1.1 200 OK", output.substring(0,15));
     
     output = requestService(POST,httpsServer );
     
     assertEquals("Have you setup trust certificates for " + httpsServer + "?\n" + 
-        output, "HTTP/1.1 302 Fo", output.substring(0,15));
+        output, "HTTP/1.1 200 OK", output.substring(0,15));
   }
 
   public  static void testWwarn() throws IOException, UnknownHostException, UnsupportedEncodingException {
