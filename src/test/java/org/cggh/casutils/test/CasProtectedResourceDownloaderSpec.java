@@ -1,7 +1,3 @@
-/**
-
- * 
- */
 package org.cggh.casutils.test;
 
 import java.io.File;
