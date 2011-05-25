@@ -44,10 +44,16 @@ public class CasProtectedResourceDownloader {
     this.tempFileDirectory = tempFileDirectoryIn;
     this.tempUrlLocation = "file://" + tempFileDirectory;
 
-    System.err.println("ticketGrantingServiceUrl:" + ticketGrantingServiceUrl);
+    System.err.println(this);
+    
     System.err.println("usernameIn:" + usernameIn);
     System.err.println("passwordIn:" + passwordIn);
-    System.err.println("tempFileDirectoryIn:" + tempFileDirectoryIn);
+  }
+
+
+  @Override
+  public String toString() {
+    return super.toString() + " from:" + ticketGrantingServiceUrl + " to " + tempUrlLocation;
   }
 
 
