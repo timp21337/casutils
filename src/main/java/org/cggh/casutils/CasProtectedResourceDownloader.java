@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -64,7 +65,7 @@ public class CasProtectedResourceDownloader {
     return returnUrl;
   }
 
-  private String ticketedUri(String uri) {
+  private String ticketedUri(String uri) throws IOException {
     String ticketedUri = uri;
     String ticket = getServiceTicket(ticketGrantingServiceUrl, username, password, uri);
 
@@ -119,13 +120,14 @@ public class CasProtectedResourceDownloader {
   /**
    * Get the resource.
    * wget -O - -d ${TARGET}?ticket=$ST |grep "atom:feed"
+   * @throws IOException 
    */
 
-  private static String getServiceTicket(final String casServerUrl, final String username, final String password, final String service) {
+  private static String getServiceTicket(final String casServerUrl, final String username, final String password, final String service) throws IOException {
     return getServiceTicket(casServerUrl, getTicketGrantingTicket(casServerUrl, username, password), service);
   }
 
-  private static String getServiceTicket(final String casServerUrl, final String ticketGrantingTicket, final String service) {
+  private static String getServiceTicket(final String casServerUrl, final String ticketGrantingTicket, final String service) throws IOException {
 
     final HttpClient client = new HttpClient();
 
@@ -141,10 +143,9 @@ public class CasProtectedResourceDownloader {
       if (post.getStatusCode() == 200)
         return response;
       else
-        throw new RuntimeException("Invalid response code (" + post.getStatusCode() + ") from CAS server.\n" + 
+        throw new RuntimeException("Unexpected invalid response code (" + post.getStatusCode() + ") from CAS server. \n" + 
+            "Despite a ticket granting ticket having been issued by the server.\n" + 
             "Response (first 1k): " + response.substring(0, Math.min(1024, response.length())));
-    } catch (final IOException e) {
-      throw new RuntimeException(e);
     } finally {
       post.releaseConnection();
     }
@@ -171,7 +172,7 @@ public class CasProtectedResourceDownloader {
         if (matcher.matches())
           return matcher.group(1);
         else
-          throw new RuntimeException("Successful ticket granting request, but no ticket found.\n" + 
+          throw new RuntimeException("Unexpected missing action. Successful ticket granting request, but no ticket found.\n" + 
               "Response (first 1k): " + response.substring(0, Math.min(1024, response.length())));
       } else {
         throw new RuntimeException("Invalid response code (" + post.getStatusCode() + ") from CAS server " + ticketGrantingServiceUrl + "\n" + 

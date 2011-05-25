@@ -120,6 +120,16 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     }
   }
 
+  public void testBadCasProtocolTrapped() throws Exception { 
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("http://",getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    try { 
+      it.downloadUrlToFile(getTestStudyUrl(), new File("t.tmp"));
+      fail("Should have bombed");
+    } catch (RuntimeException e) { 
+      e = null;
+    }
+    
+  }
   
   
 }
