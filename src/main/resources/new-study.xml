@@ -1,0 +1,73 @@
+<atom:entry xmlns:atom="http://www.w3.org/2005/Atom">
+    <atom:id>https://cloud1.cggh.org/repository/service/content/studies/TCDCM</atom:id>
+    <atom:published>2011-05-17T15:37:24.839Z</atom:published>
+    <atom:updated>2011-05-17T16:24:38.509Z</atom:updated>
+    <atom:author>
+        <atom:email>colin@example.org</atom:email>
+    </atom:author>
+    <atom:title type="text">Test of CURL upload</atom:title>
+    <app:control xmlns:app="http://www.w3.org/2007/app">
+        <draft>no</draft>
+    </app:control>
+    <atom:content type="application/vnd.chassis-manta+xml">
+        <study profile="http://www.cggh.org/2010/chassis/manta/1.3">
+            <ui-info>
+                <wizard-pane-to-show>confirmation</wizard-pane-to-show>
+            </ui-info>
+            <registrant-has-agreed-to-the-terms>yes</registrant-has-agreed-to-the-terms>
+            <study-is-published>Yes</study-is-published>
+            <explorer-display>notset</explorer-display>
+            <publications>
+                <publication>
+                    <publication-title>Goog</publication-title>
+                    <pmid/>
+                    <publication-references>
+                        <publication-reference type="url">http://google.com</publication-reference>
+                    </publication-references>
+                </publication>
+            </publications>
+            <acknowledgements>
+                <person>
+                    <first-name>Colin</first-name>
+                    <middle-name/>
+                    <family-name>Eg</family-name>
+                    <email-address>colin@example.org</email-address>
+                    <institution>WTCHG</institution>
+                    <person-is-contactable>Yes</person-is-contactable>
+                </person>
+                <institution-ack>
+                    <institution-name>WTCHG</institution-name>
+                    <institution-websites>
+                        <institution-url>http://www.cggh.org/</institution-url>
+                    </institution-websites>
+                </institution-ack>
+            </acknowledgements>
+            <curator-notes/>
+            <study-status>new</study-status>
+            <modules>clinical molecular invitro pharmacology</modules>
+            <atombeat:group xmlns:atombeat="http://purl.org/atombeat/xmlns" id="GROUP_ADMINISTRATORS">
+                <atombeat:member>colin@example.org</atombeat:member>
+                <atombeat:member>adam@example.org</atombeat:member>
+            </atombeat:group>
+        </study>
+    </atom:content>
+    <ar:comment xmlns:ar="http://purl.org/atompub/revision/1.0">
+        <atom:author>
+            <atom:email>adam@example.org</atom:email>
+        </atom:author>
+        <atom:updated>2011-05-17T16:24:38.509Z</atom:updated>
+        <atom:summary/>
+    </ar:comment>
+    <manta:id xmlns:manta="http://www.cggh.org/2010/chassis/manta/xmlns">TCDCM</manta:id>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT, DELETE" rel="self" type="application/atom+xml;type=entry" href="https://cloud1.cggh.org/repository/service/content/studies/TCDCM"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT, DELETE" rel="edit" type="application/atom+xml;type=entry" href="https://cloud1.cggh.org/repository/service/content/studies/TCDCM"/>
+    <atom:link rel="service" type="application/atomsvc+xml" href="https://cloud1.cggh.org/repository/service/"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT" rel="http://purl.org/atombeat/rel/security-descriptor" href="https://cloud1.cggh.org/repository/service/security/studies/TCDCM" type="application/atom+xml;type=entry"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET" rel="history" href="https://cloud1.cggh.org/repository/service/history/studies/TCDCM" type="application/atom+xml;type=feed"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT, POST" rel="http://www.cggh.org/2010/chassis/terms/submittedMedia" href="https://cloud1.cggh.org/repository/service/content/media/submitted/TCDCM" type="application/atom+xml;type=feed"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT" rel="http://www.cggh.org/2010/chassis/terms/curatedMedia" href="https://cloud1.cggh.org/repository/service/content/media/curated/TCDCM" type="application/atom+xml;type=feed"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT" rel="http://www.cggh.org/2010/chassis/terms/derivations" href="https://cloud1.cggh.org/repository/service/content/derivations/TCDCM" type="application/atom+xml;type=feed"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT" rel="http://www.cggh.org/2010/chassis/terms/personalDataReviews" href="https://cloud1.cggh.org/repository/service/content/reviews/personal-data/TCDCM" type="application/atom+xml;type=feed"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT, DELETE" rel="http://www.cggh.org/2010/chassis/terms/studyInfo" href="https://cloud1.cggh.org/repository/service/content/study-info/TCDCM" type="application/atom+xml;type=entry"/>
+    <atom:link xmlns:atombeat="http://purl.org/atombeat/xmlns" atombeat:allow="GET, PUT, DELETE" rel="http://www.cggh.org/2010/chassis/terms/groups" href="https://cloud1.cggh.org/repository/service/content/groups/TCDCM" type="application/atom+xml;type=entry"/>
+</atom:entry>
