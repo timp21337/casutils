@@ -43,8 +43,10 @@ public class CasProtectedResourceDownloader {
     this.password = passwordIn;
     this.tempFileDirectory = tempFileDirectoryIn;
     this.tempUrlLocation = "file://" + tempFileDirectory;
-
-    System.err.println(this);
+    
+    if (!this.tempUrlLocation.endsWith("/"))
+      this.tempUrlLocation = this.tempUrlLocation + "/";
+    
     
     System.err.println("usernameIn:" + usernameIn);
     System.err.println("passwordIn:" + passwordIn);
