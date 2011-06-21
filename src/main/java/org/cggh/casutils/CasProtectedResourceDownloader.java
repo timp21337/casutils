@@ -63,7 +63,7 @@ public class CasProtectedResourceDownloader {
    * @param uri
    *          protected resource
    */
-  public String download(String uri) throws IOException {
+  public String download(String uri) throws NotFoundException, IOException {
     String name = uri.substring(uri.lastIndexOf('/') + 1);
     name = name.replace('?', '_');
     downloadUrlToFile(uri, new File(tempFileDirectory, name));
@@ -88,7 +88,7 @@ public class CasProtectedResourceDownloader {
   /**
    * Download the url content and save into the file.
    */
-  public int downloadUrlToFile(String uri, File file) throws IOException {
+  public int downloadUrlToFile(String uri, File file) throws NotFoundException, IOException {
     System.err.println("Downloading uri " + uri + " to " + file);
     String ticketedUri = ticketedUri(uri);
     System.err.println("Ticketted uri: " + ticketedUri);
@@ -112,11 +112,12 @@ public class CasProtectedResourceDownloader {
         }
         out.flush();
         out.close();
-      } else {
+      } else if (status == 404) {
+        throw new NotFoundException("Uri " + uri + " not found.");
+      }else {
         String response = get.getResponseBodyAsString();
         throw new RuntimeException("Invalid response code (" + status + ") from server.\n" + 
             "Response (first 3k): " + response.substring(0, Math.min(3072, response.length())));
-
       }
     } finally {
       get.releaseConnection();
