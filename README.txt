@@ -32,4 +32,7 @@ Certificate fingerprints:
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
 
+Much the same on Ubuntu: 
+cd /etc/java-6-sun/security
+sudo keytool -import -file ~/workspace/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
 
