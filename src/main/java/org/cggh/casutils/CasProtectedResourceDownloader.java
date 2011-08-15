@@ -48,8 +48,6 @@ public class CasProtectedResourceDownloader {
       this.tempUrlLocation = this.tempUrlLocation + "/";
     
     
-    System.err.println("usernameIn:" + usernameIn);
-    System.err.println("passwordIn:" + passwordIn);
   }
 
 
@@ -89,9 +87,9 @@ public class CasProtectedResourceDownloader {
    * Download the url content and save into the file.
    */
   public int downloadUrlToFile(String uri, File file) throws NotFoundException, IOException {
-    System.err.println("Downloading uri " + uri + " to " + file);
     String ticketedUri = ticketedUri(uri);
-    System.err.println("Ticketted uri: " + ticketedUri);
+    System.err.println("Downloading uri " + uri + " to " + file);
+    //System.err.println("Ticketted uri: " + ticketedUri);
 
     GetMethod get = new GetMethod(ticketedUri);
     get.setRequestHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows 2000)");
