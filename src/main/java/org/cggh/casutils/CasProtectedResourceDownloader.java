@@ -24,6 +24,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
  */
 public class CasProtectedResourceDownloader {
 
+  private static final int ONE_MINUTE = 60000;
+
   final static String charSet = "UTF-8";
 
   private String username = "adam@example.org";
@@ -95,7 +97,9 @@ public class CasProtectedResourceDownloader {
     get.setRequestHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows 2000)");
 
     get.setFollowRedirects(true);
-    HttpClient client = new HttpClient(new MultiThreadedHttpConnectionManager());
+    MultiThreadedHttpConnectionManager hcm = new MultiThreadedHttpConnectionManager();
+    hcm.getParams().setSoTimeout(ONE_MINUTE);
+    HttpClient client = new HttpClient(hcm);
     int status = 0;
     try {
       client.executeMethod(get);
@@ -112,7 +116,7 @@ public class CasProtectedResourceDownloader {
         out.close();
       } else if (status == 404) {
         throw new NotFoundException("Uri " + uri + " not found.");
-      }else {
+      } else {
         String response = get.getResponseBodyAsString();
         throw new RuntimeException("Invalid response code (" + status + ") from server.\n" + 
             "Response (first 3k): " + response.substring(0, Math.min(3072, response.length())));
