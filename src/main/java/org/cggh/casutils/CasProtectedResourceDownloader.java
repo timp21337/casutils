@@ -96,6 +96,7 @@ public class CasProtectedResourceDownloader {
     GetMethod get = new GetMethod(ticketedUri);
     get.setRequestHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows 2000)");
 
+    long start = System.currentTimeMillis();
     get.setFollowRedirects(true);
     MultiThreadedHttpConnectionManager hcm = new MultiThreadedHttpConnectionManager();
     hcm.getParams().setSoTimeout(ONE_MINUTE);
@@ -124,6 +125,9 @@ public class CasProtectedResourceDownloader {
     } finally {
       get.releaseConnection();
     }
+    long end = System.currentTimeMillis();
+    long millis = end - start;
+    System.err.println(" in " + millis + " milliseconds (status " + status + ")");
     return status;
   }
 
