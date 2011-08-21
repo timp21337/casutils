@@ -66,6 +66,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), "bad", "/tmp/");
     try { 
       bad.download(getTestZipFileUrl());
+      fail("Should have bombed");
     } catch (RuntimeException e) { 
       e = null;
     }
