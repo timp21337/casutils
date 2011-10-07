@@ -38,6 +38,6 @@ public class Cloud1HttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
   @Override
   String getStudyId() {
-    return "MTSUX";//"ZAZBM";
+    return "FMDMQ";//"ZAZBM";
   }
 }
