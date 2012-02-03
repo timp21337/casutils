@@ -136,6 +136,7 @@ https://github.com/timp21337/authorised-cas-proxy/issues
          </execution>
         </executions>
       </plugin>
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -194,6 +195,7 @@ https://github.com/timp21337/authorised-cas-proxy/issues
           </execution>
         </executions>
       </plugin>
+-->
       <plugin>
        <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-surefire-plugin</artifactId>
