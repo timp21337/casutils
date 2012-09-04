@@ -55,7 +55,8 @@ public class CasProtectedResourceDownloader {
 
   @Override
   public String toString() {
-    return super.toString() + " from:" + ticketGrantingServiceUrl + " to " + tempUrlLocation;
+    return CasProtectedResourceDownloader.class.getSimpleName() 
+        + " from: " + ticketGrantingServiceUrl + " to " + tempUrlLocation;
   }
 
 
