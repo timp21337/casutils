@@ -140,7 +140,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   
   public void testBadStatusHandled() throws Exception { 
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
-        "http://",getHostAndTicketGrantingPort(), 
+        "ftp://",getHostAndTicketGrantingPort(), 
         getUser(), getPassword(), "/tmp/");
     System.err.println(it);
     try { 
