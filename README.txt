@@ -1,11 +1,14 @@
+This project is maintained in svn and git: 
+http://tim-pizey.blogspot.co.uk/2011/08/dual-repositories-subversion-and-git.html
+
+
  mvn clean install war:war
 
  should build a jar and a war
  
  
- Note that Jenkins will use its own JDK unless you tell it otherwise. 
- 
  Cloud1 has a self signed certificate: beware.
+ 
  
  Installing certificate
  ======================
@@ -46,6 +49,7 @@ cd /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/security
 
 keytool -import -file /Users/timp/workspace/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
 
+Note that Jenkins will use its own JDK unless you tell it otherwise. 
 for Jenkins (as root): 
 cd /usr/lib/jvm/java-6-openjdk/jre/lib/security
 keytool -import -file /var/lib/jenkins/jobs/casutils/workspace/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
