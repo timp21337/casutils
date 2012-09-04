@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.cggh.casutils.CasProtectedResourceDownloader;
+import org.cggh.casutils.NotFoundException;
 
 import junit.framework.TestCase;
 
@@ -16,13 +17,15 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
 
   abstract String getProtocol(); 
   abstract String getHost();
+  
+  // Default https port is 443
   abstract String getCasPort();
   
   static final String CONTEXTPATH = "/repository";
   static final String SERVICEPATH = "/service/";
   
   String getHostAndTicketGrantingPort() { 
-    return getHost() +":" + getCasPort();
+    return getHost() + (getCasPort() == "" ? "" : ":" + getCasPort());
   }
   
   // Note we are not specifying port
@@ -40,7 +43,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   // Go to http://cloud1.cggh.org/repository/contributor/
   // login as cora@example.org, password bar
   
- abstract String getStudyId();
+  abstract String getStudyId();
  
   String getTestStudyUrl() { 
     return getTestCollectionUrl() + "/" + getStudyId() ;
@@ -82,9 +85,9 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(), getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
     assertEquals("file:///tmp/" + getStudyId() , it.download(getTestStudyUrl()));
 
-    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),"adam@example.org", "bair", "/tmp/"); 
+    CasProtectedResourceDownloader badPasswordSupplied = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),"adam@example.org", "bair", "/tmp/"); 
     try { 
-      bad.download(getTestStudyUrl());
+      badPasswordSupplied.download(getTestStudyUrl());
       fail("Should have bombed");
     } catch (RuntimeException e) { 
       e = null;
@@ -117,7 +120,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     try { 
       it.downloadUrlToFile(getProtocol() + getHostAndTicketGrantingPort() + "/repository/service/content/studies/not_there", new File("t.tmp"));
       fail("Should have bombed");
-    } catch (RuntimeException e) { 
+    } catch (NotFoundException e) {
       e = null;
     }
   }
@@ -130,7 +133,6 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     } catch (RuntimeException e) { 
       e = null;
     }
-    
   }
   
   
