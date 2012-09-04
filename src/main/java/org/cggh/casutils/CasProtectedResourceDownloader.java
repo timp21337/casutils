@@ -185,11 +185,14 @@ public class CasProtectedResourceDownloader {
       if (post.getStatusCode() == 201) {
         final Matcher matcher = Pattern.compile(".*action=\".*/(.*?)\".*").matcher(response);
 /*
- * Not testable
-        if (!matcher.matches())
+ * Untestable
+        if (matcher.matches())
+          return matcher.group(1);
+        else
           throw new RuntimeException("Unexpected missing action. Successful ticket granting request, but no ticket found.\n" + 
               "Response (first 1k): " + response.substring(0, Math.min(1024, response.length())));
- */
+**/
+        matcher.matches();
         return matcher.group(1);
       } else {
         throw new RuntimeException("Invalid response code (" + post.getStatusCode() + ") from CAS server " + ticketGrantingServiceUrl + "\n" + 
