@@ -18,7 +18,7 @@ public class Cloud1HttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
   @Override
   String getCasPort() {
-    return "443";
+    return "";
   }
 
   @Override
