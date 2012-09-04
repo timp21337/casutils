@@ -1,6 +1,7 @@
 package org.cggh.casutils.test;
 
 import java.io.File;
+import java.net.ConnectException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.cggh.casutils.CasProtectedResourceDownloader;
@@ -125,6 +126,21 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     }
   }
 
+  public void testDownloadBadStatusToFile() throws Exception {
+    CasProtectedResourceDownloader it = 
+        new CasProtectedResourceDownloader(
+            getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    try { 
+      it.downloadUrlToFile("http://localhost:8080/httpstatus/http?status=999", new File("t.tmp"));
+      fail("Should have bombed");
+    } catch (ConnectException e) {
+      System.err.println("Have you installed https://github.com/timp21337/http-status-generator");
+      e = null;
+    }
+  }
+
+  
+  
   public void testBadCasProtocolTrapped() throws Exception { 
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
         "http://",getHostAndTicketGrantingPort() + ":443", 
