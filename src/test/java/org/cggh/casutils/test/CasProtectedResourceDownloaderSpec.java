@@ -136,6 +136,9 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     } catch (ConnectException e) {
       System.err.println("Have you installed https://github.com/timp21337/http-status-generator");
       e = null;
+    } catch (NotFoundException e) {
+      e = null;
+      System.err.println("Have you installed https://github.com/timp21337/http-status-generator");
     } catch (RuntimeException e) { 
       assertTrue(e.getMessage(), e.getMessage().startsWith("Invalid response code (999) from server"));
     }
