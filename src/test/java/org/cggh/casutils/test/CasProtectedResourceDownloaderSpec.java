@@ -126,7 +126,8 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   }
 
   public void testBadCasProtocolTrapped() throws Exception { 
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("http://",getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader("http://",getHostAndTicketGrantingPort() + ":443",getUser(), getPassword(), "/tmp/");
+    System.err.println(it);
     try { 
       it.downloadUrlToFile(getTestStudyUrl(), new File("t.tmp"));
       fail("Should have bombed");
