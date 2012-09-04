@@ -60,7 +60,12 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
 
   public void testDownloadZip() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    String downloadedUrl = it.download(getTestZipFileUrl()); 
+    String downloadedUrl;
+    try { 
+      downloadedUrl = it.download(getTestZipFileUrl()); 
+    } catch (RuntimeException e) { 
+      throw new RuntimeException("Have you installed the cacerts? See README.txt", e);
+    }
     assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')),
         downloadedUrl.substring(downloadedUrl.lastIndexOf('/')));
     CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), "bad", "/tmp/");

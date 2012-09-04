@@ -7,7 +7,7 @@
  
  Cloud1 has a self signed certificate: beware.
  
- Installing certifiacte
+ Installing certificate
  ======================
  
  Note that this fails, without error:
@@ -33,8 +33,12 @@ Trust this certificate? [no]:  yes
 Certificate was added to keystore
 
 Much the same on Ubuntu: 
-cd /etc/java-6-sun/security
-sudo keytool -import -file ~/workspace/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
+
+cd /etc/java-6-openjdk/security/
+sudo keytool -import -file ~/dsn-chassis/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
+then to get it to work in eclipse: 
+cd /usr/lib/jvm/java-6-openjdk-amd64/jre/lib/security
+sudo keytool -import -file ~/dsn-chassis/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
 
 And on OSX
 
@@ -42,3 +46,6 @@ cd /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/security
 
 keytool -import -file /Users/timp/workspace/casutils/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
 
+for Jenkins (as root): 
+cd /usr/lib/jvm/java-6-openjdk/jre/lib/security
+keytool -import -file /var/lib/jenkins/jobs/casutils/workspace/src/main/resources/ssl-cert-snakeoil.pem -alias cloud1 -keystore  ./cacerts
