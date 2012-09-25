@@ -1,8 +1,8 @@
 package org.cggh.casutils.test;
 
-public class Cloud1HttpsCasTest extends CasProtectedResourceDownloaderSpec {
+public class AppDevHttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
-  public Cloud1HttpsCasTest(String name) {
+  public AppDevHttpsCasTest(String name) {
     super(name);
   }
 
@@ -13,7 +13,7 @@ public class Cloud1HttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
   @Override
   String getHost() {
-    return "cloud1.cggh.org";
+    return "app-dev.wwarn.org";
   }
 
   @Override
@@ -28,7 +28,7 @@ public class Cloud1HttpsCasTest extends CasProtectedResourceDownloaderSpec {
   }
   @Override
   String getUser() {
-    return "adam@example.org";
+    return "admin";
   }
 
   @Override
