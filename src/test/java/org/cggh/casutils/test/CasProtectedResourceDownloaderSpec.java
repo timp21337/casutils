@@ -62,25 +62,17 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     super(name);
   }
 
-  public void testDownloadZip() throws Exception {
+  /**
+   * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#download(java.lang.String)}.
+   */
+  public void testDownload() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    String downloadedUrl;
-    try { 
-      downloadedUrl = it.download(getTestZipFileUrl()); 
-    } catch (RuntimeException e) { 
-      throw new RuntimeException("Have you installed the cacerts? See README.txt", e);
-    }
-    assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')),
-        downloadedUrl.substring(downloadedUrl.lastIndexOf('/')));
-    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), "bad", "/tmp/");
-    try { 
-      bad.download(getTestZipFileUrl());
-      fail("Should have bombed");
-    } catch (RuntimeException e) { 
-      e = null;
-    }
-    
+    String result = it.download(getTestStudyUrl());
+    assertEquals("file:///tmp/" + getStudyId(), result);
   }
+
+
+  
 
   public void testGetStudy() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(), getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
@@ -96,19 +88,6 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   }
   
   
-  public void testGetUrlWithParameters() throws Exception { 
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    assertEquals("file:///tmp/" + getStudyId() + "_foo=bar", it.download(getTestStudyUrl() + "?foo=bar"));
-  }
-
-  /**
-   * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#download(java.lang.String)}.
-   */
-  public void testDownload() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    assertEquals("file:///tmp/" + getStudyId(), it.download(getTestStudyUrl()));
-  }
-
   /**
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#downloadUrlToFile(java.lang.String, java.io.File)}.
    */
@@ -119,13 +98,19 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   public void testDownloadBadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
     try { 
-      it.downloadUrlToFile(getProtocol() + getHostAndTicketGrantingPort() + "/repository/service/content/studies/not_there", new File("t.tmp"));
-      fail("Should have bombed");
+      String url = getProtocol() + getHostAndTicketGrantingPort() + "/repository/service/content/studies/not_there";
+      it.downloadUrlToFile(url, new File("t.tmp"));
+      fail("Should have bombed with 404 for " + url);
     } catch (NotFoundException e) {
       e = null;
     }
   }
 
+  public void testGetUrlWithParameters() throws Exception { 
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    String result = it.download(getTestStudyUrl() + "?foo=bar");
+    assertEquals("file:///tmp/" + getStudyId() + "_foo=bar", result);
+  }
   public void testDownloadBadStatusToFile() throws Exception {
     CasProtectedResourceDownloader it = 
         new CasProtectedResourceDownloader(
@@ -172,5 +157,24 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     }
   }
   
+  public void testDownloadZip() throws Exception {
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    String downloadedUrl;
+    try { 
+      downloadedUrl = it.download(getTestZipFileUrl()); 
+    } catch (RuntimeException e) { 
+      throw new RuntimeException("Have you installed the cacerts? See README.txt", e);
+    }
+    assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')),
+        downloadedUrl.substring(downloadedUrl.lastIndexOf('/')));
+    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), "bad", "/tmp/");
+    try { 
+      bad.download(getTestZipFileUrl());
+      fail("Should have bombed");
+    } catch (RuntimeException e) { 
+      e = null;
+    }
+    
+  }
   
 }

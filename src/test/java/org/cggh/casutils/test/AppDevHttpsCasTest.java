@@ -38,6 +38,6 @@ public class AppDevHttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
   @Override
   String getStudyId() {
-    return "FMDMQ";//"ZAZBM";
+    return "ZTKKS";//"FMDMQ";//"ZAZBM";
   }
 }
