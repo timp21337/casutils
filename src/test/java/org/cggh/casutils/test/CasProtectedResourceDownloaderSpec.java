@@ -76,8 +76,10 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
 
   public void testGetStudy() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(), getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    assertEquals("file:///tmp/" + getStudyId() , it.download(getTestStudyUrl()));
-
+    String result = it.download(getTestStudyUrl());
+    assertEquals("file:///tmp/" + getStudyId() , result);
+    File r = new File("/tmp/" + getStudyId());
+    assertTrue("deleting " + r, r.delete());
     CasProtectedResourceDownloader badPasswordSupplied = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),"adam@example.org", "bair", "/tmp/"); 
     try { 
       badPasswordSupplied.download(getTestStudyUrl());
@@ -93,13 +95,18 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
    */
   public void testDownloadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
-    assertEquals(200, it.downloadUrlToFile(getTestStudyUrl(), new File("t.tmp")));
+    File f = new File("t.tmp");
+    assertEquals(200, it.downloadUrlToFile(getTestStudyUrl(), f));
+    assertTrue("deleting " + f, f.delete());
   }
+  
   public void testDownloadBadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
     try { 
       String url = getProtocol() + getHostAndTicketGrantingPort() + "/repository/service/content/studies/not_there";
-      it.downloadUrlToFile(url, new File("t.tmp"));
+      File f = new File("t.tmp");
+      it.downloadUrlToFile(url, f);
+      assertTrue("deleting " + f, f.delete());
       fail("Should have bombed with 404 for " + url);
     } catch (NotFoundException e) {
       e = null;
@@ -110,13 +117,17 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
     String result = it.download(getTestStudyUrl() + "?foo=bar");
     assertEquals("file:///tmp/" + getStudyId() + "_foo=bar", result);
+    File f = new File("/tmp/"+ getStudyId() + "_foo=bar");
+    assertTrue("deleting " + f, f.delete());    
   }
+  
   public void testDownloadBadStatusToFile() throws Exception {
     CasProtectedResourceDownloader it = 
         new CasProtectedResourceDownloader(
             getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    File f = new File("t.tmp");
     try { 
-      it.downloadUrlToFile("http://localhost:8080/httpstatus/http?status=999", new File("t.tmp"));
+      it.downloadUrlToFile("http://localhost:8080/httpstatus/http?status=999", f);
       fail("Should have bombed");
     } catch (ConnectException e) {
       System.err.println("Have you installed https://github.com/timp21337/http-status-generator");
@@ -127,6 +138,8 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     } catch (RuntimeException e) { 
       assertTrue(e.getMessage(), e.getMessage().startsWith("Invalid response code (999) from server"));
     }
+    // It should not have been created
+    assertFalse("deleting " + f, f.delete());    
   }
 
   
@@ -135,26 +148,30 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
         "http://",getHostAndTicketGrantingPort() + ":443", 
         getUser(), getPassword(), "/tmp/");
-    System.err.println(it);
+    File f = new File("t.tmp");
     try { 
-      it.downloadUrlToFile(getTestStudyUrl(), new File("t.tmp"));
+      it.downloadUrlToFile(getTestStudyUrl(), f);
       fail("Should have bombed");
     } catch (RuntimeException e) { 
       e = null;
     }
+    // It should not have been created
+    assertFalse("deleting " + f, f.delete());    
   }
   
   public void testBadStatusHandled() throws Exception { 
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
         "ftp://",getHostAndTicketGrantingPort(), 
         getUser(), getPassword(), "/tmp/");
-    System.err.println(it);
+    File f = new File("t.tmp");
     try { 
-      it.downloadUrlToFile(getTestStudyUrl(), new File("t.tmp"));
+      it.downloadUrlToFile(getTestStudyUrl(), f);
       fail("Should have bombed");
     } catch (RuntimeException e) { 
       e = null;
     }
+    // It should not have been created
+    assertFalse("deleting " + f, f.delete());    
   }
   
   public void testDownloadZip() throws Exception {
