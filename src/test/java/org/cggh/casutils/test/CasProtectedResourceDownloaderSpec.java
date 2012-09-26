@@ -22,7 +22,8 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   // Default https port is 443
   abstract String getCasPort();
   
-  static final String CONTEXTPATH = "/repository";
+  // NOTE /repository goes to orbeon, but /repo behaves
+  static final String CONTEXTPATH = "/repo";
   static final String SERVICEPATH = "/service/";
   
   String getHostAndTicketGrantingPort() { 
