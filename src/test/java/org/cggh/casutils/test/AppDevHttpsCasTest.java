@@ -7,17 +7,28 @@ public class AppDevHttpsCasTest extends CasProtectedResourceDownloaderSpec {
   }
 
   @Override
-  String getProtocol() {
+  String getCasProxyProtocol() {
     return "https://";
   }
 
   @Override
-  String getHost() {
+  String getCasProxyHost() {
+   // return "46.137.162.221";
+    // return "test-chassis.wwarn.ox.ac.uk";
+   // return "test-chassis.wwarn.org";
+   // return "demo.wwarn.org";
     return "app-dev.wwarn.org";
   }
 
   @Override
-  String getCasPort() {
+  String getServiceHostUrl() {
+    //return "http://test-chassis.wwarn.ox.ac.uk:8080";
+    return "http://app-dev.wwarn.org";
+  }
+  
+  
+  @Override
+  String getCasProxyPort() {
     return "";
   }
 
@@ -38,6 +49,8 @@ public class AppDevHttpsCasTest extends CasProtectedResourceDownloaderSpec {
 
   @Override
   String getStudyId() {
+    //return "QNSTN";
     return "ZTKKS";//"FMDMQ";//"ZAZBM";
   }
+
 }
