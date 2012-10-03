@@ -16,23 +16,25 @@ import junit.framework.TestCase;
  */
 abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
 
-  abstract String getProtocol(); 
-  abstract String getHost();
+  abstract String getCasProxyProtocol(); 
+  abstract String getCasProxyHost();
   
   // Default https port is 443
-  abstract String getCasPort();
+  abstract String getCasProxyPort();
+
+  abstract String getServiceHostUrl();
   
   // NOTE /repository goes to orbeon, but /repo behaves
-  static final String CONTEXTPATH = "/repo";
+  static final String CONTEXTPATH = "/repository";
   static final String SERVICEPATH = "/service/";
   
-  String getHostAndTicketGrantingPort() { 
-    return getHost() + (getCasPort() == "" ? "" : ":" + getCasPort());
+  String getTicketGrantingHostAndPort() { 
+    return getCasProxyHost() + (getCasProxyPort() == "" ? "" : ":" + getCasProxyPort());
   }
   
-  // Note we are not specifying port
+  // Note we are not currently specifying port
   String getServiceUrl() { 
-	  return getProtocol() + getHost() + CONTEXTPATH + SERVICEPATH;
+	  return getServiceHostUrl() + CONTEXTPATH + SERVICEPATH;
   }
   String getContentUrl() { 
 	  return getServiceUrl() + "content/";
@@ -67,7 +69,8 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#download(java.lang.String)}.
    */
   public void testDownload() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
+    System.err.println(it);
     String result = it.download(getTestStudyUrl());
     assertEquals("file:///tmp/" + getStudyId(), result);
   }
@@ -76,12 +79,12 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   
 
   public void testGetStudy() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(), getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(), getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     String result = it.download(getTestStudyUrl());
     assertEquals("file:///tmp/" + getStudyId() , result);
     File r = new File("/tmp/" + getStudyId());
     assertTrue("deleting " + r, r.delete());
-    CasProtectedResourceDownloader badPasswordSupplied = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),"adam@example.org", "bair", "/tmp/"); 
+    CasProtectedResourceDownloader badPasswordSupplied = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),"adam@example.org", "bair", "/tmp/"); 
     try { 
       badPasswordSupplied.download(getTestStudyUrl());
       fail("Should have bombed");
@@ -95,16 +98,16 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
    * Test method for {@link org.cggh.casutils.CasProtectedResourceDownloader#downloadUrlToFile(java.lang.String, java.io.File)}.
    */
   public void testDownloadUrlToFile() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     File f = new File("t.tmp");
     assertEquals(200, it.downloadUrlToFile(getTestStudyUrl(), f));
     assertTrue("deleting " + f, f.delete());
   }
   
   public void testDownloadBadUrlToFile() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     try { 
-      String url = getProtocol() + getHostAndTicketGrantingPort() + "/repository/service/content/studies/not_there";
+      String url = getCasProxyProtocol() + getTicketGrantingHostAndPort() + "/repository/service/content/studies/not_there";
       File f = new File("t.tmp");
       it.downloadUrlToFile(url, f);
       assertTrue("deleting " + f, f.delete());
@@ -115,7 +118,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   }
 
   public void testGetUrlWithParameters() throws Exception { 
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     String result = it.download(getTestStudyUrl() + "?foo=bar");
     assertEquals("file:///tmp/" + getStudyId() + "_foo=bar", result);
     File f = new File("/tmp/"+ getStudyId() + "_foo=bar");
@@ -125,7 +128,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   public void testDownloadBadStatusToFile() throws Exception {
     CasProtectedResourceDownloader it = 
         new CasProtectedResourceDownloader(
-            getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+            getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     File f = new File("t.tmp");
     try { 
       it.downloadUrlToFile("http://localhost:8080/httpstatus/http?status=999", f);
@@ -147,7 +150,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   
   public void testBadCasProtocolTrapped() throws Exception { 
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
-        "http://",getHostAndTicketGrantingPort() + ":443", 
+        "http://",getTicketGrantingHostAndPort() + ":443", 
         getUser(), getPassword(), "/tmp/");
     File f = new File("t.tmp");
     try { 
@@ -162,7 +165,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   
   public void testBadStatusHandled() throws Exception { 
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(
-        "ftp://",getHostAndTicketGrantingPort(), 
+        "ftp://",getTicketGrantingHostAndPort(), 
         getUser(), getPassword(), "/tmp/");
     File f = new File("t.tmp");
     try { 
@@ -176,7 +179,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   }
   
   public void testDownloadZip() throws Exception {
-    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), getPassword(), "/tmp/");
+    CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     String downloadedUrl;
     try { 
       downloadedUrl = it.download(getTestZipFileUrl()); 
@@ -185,7 +188,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     }
     assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')),
         downloadedUrl.substring(downloadedUrl.lastIndexOf('/')));
-    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getProtocol(),getHostAndTicketGrantingPort(),getUser(), "bad", "/tmp/");
+    CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), "bad", "/tmp/");
     try { 
       bad.download(getTestZipFileUrl());
       fail("Should have bombed");
