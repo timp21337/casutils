@@ -7,20 +7,25 @@ public class WwarnHttpsCasTest extends CasProtectedResourceDownloaderSpec {
   }
 
   @Override
-  String getProtocol() {
+  String getCasProxyProtocol() {
     return "https://";
   }
 
   @Override
-  String getHost() {
+  String getCasProxyHost() {
     return "www.wwarn.org";
   }
 
   @Override
-  String getCasPort() {
+  String getCasProxyPort() {
     return "443";
   }
 
+  @Override
+  String getServiceHostUrl() {
+    return "https://www.wwarn.org";
+  }
+  
   @Override
   String getTestZipFileUrl() { 
     return getContentUrl() + "media/curated/NJXYG/25e29608-2cf1-4df3-83fa-0a8b481d33d5.media"; 
@@ -42,5 +47,5 @@ public class WwarnHttpsCasTest extends CasProtectedResourceDownloaderSpec {
   String getStudyId() {
     return "NJXYG";
   }
-  
+
 }
