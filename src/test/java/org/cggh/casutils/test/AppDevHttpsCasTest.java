@@ -23,7 +23,7 @@ public class AppDevHttpsCasTest extends CasProtectedResourceDownloaderSpec {
   @Override
   String getServiceHostUrl() {
     //return "http://test-chassis.wwarn.ox.ac.uk:8080";
-    return "http://app-dev.wwarn.org";
+    return "https://app-dev.wwarn.org";
   }
   
   
