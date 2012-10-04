@@ -54,11 +54,11 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   }
   
   abstract String getTestZipFileUrl(); 
-
-
   abstract String getUser();
   abstract String getPassword();
 
+
+  
   static final HttpClient client = new HttpClient();
 
   public CasProtectedResourceDownloaderSpec(String name) {
@@ -107,7 +107,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
   public void testDownloadBadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), getPassword(), "/tmp/");
     try { 
-      String url = getCasProxyProtocol() + getTicketGrantingHostAndPort() + "/repository/service/content/studies/not_there";
+      String url = getServiceHostUrl() +  "/not_there";
       File f = new File("t.tmp");
       it.downloadUrlToFile(url, f);
       assertTrue("deleting " + f, f.delete());
