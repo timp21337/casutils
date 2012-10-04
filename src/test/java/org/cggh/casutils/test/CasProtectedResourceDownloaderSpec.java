@@ -186,7 +186,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     } catch (RuntimeException e) { 
       throw new RuntimeException("Have you installed the cacerts? See README.txt", e);
     }
-    assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')),
+    assertEquals(getTestZipFileUrl().substring(getTestZipFileUrl().lastIndexOf('/')).replace('?','_'),
         downloadedUrl.substring(downloadedUrl.lastIndexOf('/')));
     CasProtectedResourceDownloader bad = new CasProtectedResourceDownloader(getCasProxyProtocol(),getTicketGrantingHostAndPort(),getUser(), "bad", "/tmp/");
     try { 
