@@ -104,7 +104,7 @@ abstract public class CasProtectedResourceDownloaderSpec extends TestCase {
     assertTrue("deleting " + f, f.delete());
   }
   
-  public void FAILINGtestDownloadBadUrlToFile() throws Exception {
+  public void testDownloadBadUrlToFile() throws Exception {
     CasProtectedResourceDownloader it = 
         new CasProtectedResourceDownloader(
             getCasProxyProtocol(),
