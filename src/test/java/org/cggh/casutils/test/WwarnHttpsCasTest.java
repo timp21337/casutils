@@ -26,7 +26,8 @@ public class WwarnHttpsCasTest extends CasProtectedResourceDownloaderSpec {
     return "https://www.wwarn.org";
   }
   
-  @Override
+  /** Media file is still there, even though study gone */
+  @Override 
   String getTestZipFileUrl() { 
     return getContentUrl() + "media/curated/NJXYG/25e29608-2cf1-4df3-83fa-0a8b481d33d5.media"; 
   }
@@ -45,7 +46,7 @@ public class WwarnHttpsCasTest extends CasProtectedResourceDownloaderSpec {
   
   @Override
   String getStudyId() {
-    return "NJXYG";
+    return "HKJAD";
   }
 
 }
